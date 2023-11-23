@@ -27,6 +27,8 @@ class Request extends Model
         'answered_at' => 'timestamp',
     ];
 
+    protected $guarded = ['id'];
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);

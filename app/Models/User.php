@@ -18,6 +18,8 @@ class User extends Authenticatable
         Notifiable,
         HasRoles;
 
+    protected $guarded = ['id'];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
