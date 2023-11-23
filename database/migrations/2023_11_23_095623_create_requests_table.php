@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('answer')->nullable();
             $table->bigInteger('respondent_id')->nullable();
             $table->timestamp('answered_at')->nullable();
-            $table->timestamps();
+            $table->timestamps(); //todo использовать softDeletes для более простого курсора модели
         });
     }
 

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreRequestRequest extends FormRequest
+class IndexRequestRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,9 @@ class StoreRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message' => 'required|string|max:65535',
+            'per_page' => [
+                'max:' . config('app.max_select_rows_db'),
+            ],
         ];
     }
 }
