@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexRequestRequest;
 use App\Http\Requests\StoreRequestRequest;
+use App\Http\Resources\RequestCollection;
+use App\Http\Resources\RequestResource;
 use App\Models\Role;
 use Illuminate\Http\JsonResponse;
 use App\Models\Request;
@@ -37,11 +39,9 @@ class RequestController extends Controller
             return response(null, Response::HTTP_NO_CONTENT);
         }
 
-        return response()->json([
-            'items' => $paginator->items(),
-            'page' => $paginator->currentPage(),
-            'total' => $paginator->total(),
-        ]);
+        return response()->json(
+            RequestCollection::make($paginator),
+        );
     }
 
     /**
@@ -50,7 +50,10 @@ class RequestController extends Controller
     public function store(StoreRequestRequest $request): JsonResponse
     {
         return \response()->json(
-            Auth::user()->requests()->create($request->validated()),
+            RequestResource::make(
+                Auth::user()->requests()
+                    ->create($request->validated())
+            ),
             Response::HTTP_CREATED,
         );
     }
@@ -60,6 +63,8 @@ class RequestController extends Controller
      */
     public function show(Request $request): JsonResponse
     {
-        return \response()->json($request);
+        return \response()->json(
+            RequestResource::make($request),
+        );
     }
 }

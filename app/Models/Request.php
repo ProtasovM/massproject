@@ -13,6 +13,11 @@ class Request extends Model
     public const ACTIVE_STATUS = 0;
     public const RESOLVED_STATUS = 1;
 
+    public const STATUS_HUMAN_NAMES = [
+        self::ACTIVE_STATUS => 'active',
+        self::RESOLVED_STATUS => 'reject',
+    ];
+
     public const STATUSES = [
         self::ACTIVE_STATUS,
         self::RESOLVED_STATUS,
