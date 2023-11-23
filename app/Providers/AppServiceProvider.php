@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Observers\RequestObserver;
 use App\Services\RequestService;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(RequestService::class, function () {
             return new RequestService();
+        });
+
+        $this->app->singleton(RequestObserver::class, function () {
+            return new RequestObserver();
         });
     }
 }
