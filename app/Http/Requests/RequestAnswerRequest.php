@@ -2,16 +2,18 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class UpdateRequestRequest extends FormRequest
+class RequestAnswerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check() && Auth::user()->hasRoles(Role::MODERATOR_TYPE);
     }
 
     /**
@@ -22,7 +24,7 @@ class UpdateRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'answer' => 'required|string|max:65535',
         ];
     }
 }

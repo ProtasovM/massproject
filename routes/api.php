@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RequestAnswerController;
 use App\Http\Controllers\RequestController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,6 @@ Route::post('/login', [AuthController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('requests', RequestController::class)
         ->except(['update', 'destroy']);
+
+    Route::post('request-answers/{id}', RequestAnswerController::class);
 });
