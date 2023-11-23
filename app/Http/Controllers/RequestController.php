@@ -7,6 +7,7 @@ use App\Http\Requests\StoreRequestRequest;
 use App\Http\Resources\RequestCollection;
 use App\Http\Resources\Request as RequestResource;
 use App\Models\Role;
+use App\Services\RequestService;
 use Illuminate\Http\JsonResponse;
 use App\Models\Request;
 use Illuminate\Http\Response;
@@ -14,7 +15,9 @@ use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
-    public function __construct()
+    public function __construct(
+        public RequestService $requestService,
+    )
     {
         $this->authorizeResource(Request::class);
     }
@@ -33,6 +36,10 @@ class RequestController extends Controller
         $paginator = $builder->cursorPaginate(
             $request->per_page ?? 100,
         );
+
+        if ($this->requestService->getTotalRows() === 0) {
+            return response(null, Response::HTTP_NO_CONTENT);
+        }
 
         return response()->json(
             RequestCollection::make($paginator),
