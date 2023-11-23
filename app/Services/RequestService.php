@@ -35,6 +35,7 @@ class RequestService
         $request->answer = $answer;
         $request->respondent_id = $respondent->id;
         $request->answered_at = Carbon::now();
+        $request->status = Request::RESOLVED_STATUS;
         $request->save();
 
         DB::commit();

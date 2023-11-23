@@ -15,7 +15,7 @@ class Request extends Model
 
     public const STATUS_HUMAN_NAMES = [
         self::ACTIVE_STATUS => 'active',
-        self::RESOLVED_STATUS => 'reject',
+        self::RESOLVED_STATUS => 'resolve',
     ];
 
     public const STATUSES = [

@@ -22,5 +22,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('requests', RequestController::class)
         ->except(['update', 'destroy']);
 
-    Route::post('request-answers/{id}', RequestAnswerController::class);
+    Route::post('request-answers/{requestModel}', RequestAnswerController::class);
 });

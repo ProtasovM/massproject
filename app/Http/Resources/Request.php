@@ -26,7 +26,7 @@ class Request extends JsonResource
             'id' => $this->id,
             'name' => $this->resource->author->name,
             'email' => $this->resource->author->email,
-            'message' => $this->massage,
+            'message' => $this->message,
             'status' => App::make(RequestService::class)
                 ->getHumanIntelligibleStatus($this->resource),
             'answer' => $this->answer,

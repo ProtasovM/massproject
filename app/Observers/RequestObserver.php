@@ -39,7 +39,7 @@ class RequestObserver
 
     public function updating(Request $request): void
     {
-        if ($request->isDirty(['answer'])) {
+        if ($request->isDirty(['answer', 'status'])) {
             $this->localCache[$request->id] = $request->getOriginal();
         }
     }
@@ -50,9 +50,12 @@ class RequestObserver
          * Если ответили, создадим евент
          */
         if (
-            $request->wasChanged(['answer'])
+            $request->wasChanged(['answer', 'status'])
             && isset($this->localCache[$request->id])
             && $this->localCache[$request->id]['answer'] === null
+            && !empty($request->answer)
+            && $this->localCache[$request->id]['status'] === Request::ACTIVE_STATUS
+            && $request->status === Request::RESOLVED_STATUS
         ) {
             event(new RequestAnsweredEvent($request));
 

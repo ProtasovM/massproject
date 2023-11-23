@@ -13,7 +13,7 @@ class RequestAnswerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check() && Auth::user()->hasRoles(Role::MODERATOR_TYPE);
+        return Auth::check() && Auth::user()->hasRole(Role::MODERATOR_TYPE);
     }
 
     /**
