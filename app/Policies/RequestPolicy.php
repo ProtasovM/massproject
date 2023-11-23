@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Request;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -13,7 +14,7 @@ class RequestPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +22,8 @@ class RequestPolicy
      */
     public function view(User $user, Request $request): bool
     {
-        //
+        return $user->hasRole(Role::MODERATOR_TYPE)
+            ? true : $request->user_id = $user->id;
     }
 
     /**
@@ -29,7 +31,7 @@ class RequestPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +39,7 @@ class RequestPolicy
      */
     public function update(User $user, Request $request): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -45,7 +47,7 @@ class RequestPolicy
      */
     public function delete(User $user, Request $request): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -53,7 +55,7 @@ class RequestPolicy
      */
     public function restore(User $user, Request $request): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -61,6 +63,6 @@ class RequestPolicy
      */
     public function forceDelete(User $user, Request $request): bool
     {
-        //
+        return false;
     }
 }

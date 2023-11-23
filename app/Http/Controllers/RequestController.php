@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexRequestRequest;
 use App\Http\Requests\StoreRequestRequest;
+use App\Models\Role;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use App\Models\Request as RequestModel;
+use App\Models\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class RequestController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(RequestModel::class);
+        $this->authorizeResource(Request::class);
     }
 
     /**
@@ -23,7 +22,11 @@ class RequestController extends Controller
      */
     public function index(IndexRequestRequest $request): Response|JsonResponse //todo добавить курсор в пагинатор
     {
-        $builder = RequestModel::query();
+        $builder = Request::query();
+
+        if (Auth::user()->hasRole(Role::MODERATOR_TYPE) === false) {
+            $builder->where('author_id', '=', Auth::user()->id);
+        }
 
         $paginator = $builder->paginate(
             $request->per_page ?? 100,
@@ -55,7 +58,7 @@ class RequestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(RequestModel $request): JsonResponse
+    public function show(Request $request): JsonResponse
     {
         return \response()->json($request);
     }
