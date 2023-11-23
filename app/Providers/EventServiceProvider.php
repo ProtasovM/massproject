@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\RequestAnsweredEvent;
+use App\Listeners\RequestAnsweredUserEmailNotification;
+use App\Models\Request;
+use App\Observers\RequestAnswerObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -16,7 +20,10 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
-            SendEmailVerificationNotification::class,
+            //SendEmailVerificationNotification::class,
+        ],
+        RequestAnsweredEvent::class => [
+            RequestAnsweredUserEmailNotification::class,
         ],
     ];
 
@@ -25,7 +32,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Request::observe(RequestAnswerObserver::class);
     }
 
     /**
