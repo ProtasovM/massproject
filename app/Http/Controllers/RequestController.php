@@ -7,6 +7,7 @@ use App\Http\Requests\StoreRequestRequest;
 use App\Http\Resources\RequestCollection;
 use App\Http\Resources\Request as RequestResource;
 use App\Models\Role;
+use App\Services\RequestFilterService;
 use App\Services\RequestService;
 use Illuminate\Http\JsonResponse;
 use App\Models\Request;
@@ -17,6 +18,7 @@ class RequestController extends Controller
 {
     public function __construct(
         public RequestService $requestService,
+        public RequestFilterService $requestFilterService,
     )
     {
         $this->authorizeResource(Request::class);
@@ -32,6 +34,8 @@ class RequestController extends Controller
         if (Auth::user()->hasRole(Role::MODERATOR_TYPE) === false) {
             $builder->where('author_id', '=', Auth::user()->id);
         }
+
+        $this->requestFilterService->resolveFilterFromRequest($request, $builder);
 
         $paginator = $builder->cursorPaginate(
             $request->per_page ?? 100,

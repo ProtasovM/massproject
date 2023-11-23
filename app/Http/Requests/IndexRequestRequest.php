@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Services\RequestFilterService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,6 @@ class IndexRequestRequest extends FormRequest
             'per_page' => [
                 'max:' . config('app.max_select_rows_db'),
             ],
-        ];
+        ] + RequestFilterService::VALIDATION_RULES;
     }
 }
