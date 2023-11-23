@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Services\RequestService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\App;
 
 class RequestCollection extends ResourceCollection
 {
@@ -18,8 +20,9 @@ class RequestCollection extends ResourceCollection
     {
         return [
             'items' => $this->collection,
-            'page' => $this->resource->currentPage(),
-            'total' => $this->resource->total(),
+            'previous' => $this->resource->previousPageUrl(),
+            'next' => $this->resource->nextPageUrl(),
+            'total' => App::make(RequestService::class)->getTotalRows(),
         ];
     }
 }

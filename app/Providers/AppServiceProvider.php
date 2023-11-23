@@ -25,8 +25,10 @@ class AppServiceProvider extends ServiceProvider
             return new RequestService();
         });
 
-        $this->app->singleton(RequestObserver::class, function () {
-            return new RequestObserver();
+        $this->app->singleton(RequestObserver::class, function ($app) {
+            return new RequestObserver(
+                $app->make(RequestService::class)
+            );
         });
     }
 }

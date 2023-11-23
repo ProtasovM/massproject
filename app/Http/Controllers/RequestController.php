@@ -22,7 +22,7 @@ class RequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(IndexRequestRequest $request): Response|JsonResponse //todo добавить курсор в пагинатор
+    public function index(IndexRequestRequest $request): Response|JsonResponse
     {
         $builder = Request::query();
 
@@ -30,14 +30,9 @@ class RequestController extends Controller
             $builder->where('author_id', '=', Auth::user()->id);
         }
 
-        $paginator = $builder->paginate(
+        $paginator = $builder->cursorPaginate(
             $request->per_page ?? 100,
-            page: $request->page ?? 1,
         );
-
-        if ($paginator->total() === 0) {
-            return response(null, Response::HTTP_NO_CONTENT);
-        }
 
         return response()->json(
             RequestCollection::make($paginator),

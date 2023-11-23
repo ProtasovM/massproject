@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Events\RequestAnsweredEvent;
 use App\Models\Request;
+use App\Services\RequestService;
 
 class RequestObserver
 {
@@ -15,12 +16,25 @@ class RequestObserver
      */
     private array $localCache;
 
+    public function __construct(
+        public RequestService $requestService,
+    ) {
+    }
+
     public function creating(Request $request): void
     {
         /*
          * Выставим начальный статус
          */
         $request->status = Request::ACTIVE_STATUS;
+    }
+
+    public function created(Request $request): void
+    {
+        /*
+         * Обновим тотал
+         */
+        $this->requestService->incrementTotalRows();
     }
 
     public function updating(Request $request): void
