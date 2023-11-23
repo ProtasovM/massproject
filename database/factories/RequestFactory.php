@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Request;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -48,7 +49,9 @@ class RequestFactory extends Factory
     {
         $respondents = Cache::get('respondents');
         if (!$respondents) {
-            $respondents = User::all();
+            $respondents = User::whereHas('role', function ($builder) {
+                $builder->where('name', Role::MODERATOR_TYPE);
+            })->get(['id']);
             Cache::put('respondents', $respondents, 30);
         }
         return $respondents;

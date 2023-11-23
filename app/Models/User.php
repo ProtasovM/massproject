@@ -8,10 +8,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\PermissionRegistrar;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        HasRoles;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        /*
+         * Выставляем свой клас ролей,
+         */
+        $this->roleClass = Role::class;
+    }
 
     /**
      * The attributes that are mass assignable.
