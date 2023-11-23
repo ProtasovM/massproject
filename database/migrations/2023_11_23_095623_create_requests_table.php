@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('author_id');
+            $table->tinyInteger('status')->default(\App\Models\Request::ACTIVE_STATUS);
+            $table->text('message');
+            $table->text('answer')->nullable();
+            $table->bigInteger('respondent_id')->nullable();
+            $table->timestamp('answered_at')->nullable();
             $table->timestamps();
         });
     }
