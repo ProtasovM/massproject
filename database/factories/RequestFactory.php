@@ -45,11 +45,11 @@ class RequestFactory extends Factory
         ];
     }
 
-    private function getRespondents(): Collection//todo когда будут роли, отрезолвить
+    private function getRespondents(): Collection
     {
         $respondents = Cache::get('respondents');
         if (!$respondents) {
-            $respondents = User::whereHas('role', function ($builder) {
+            $respondents = User::whereHas('roles', function ($builder) {
                 $builder->where('name', Role::MODERATOR_TYPE);
             })->get(['id']);
             Cache::put('respondents', $respondents, 30);

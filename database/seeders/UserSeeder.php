@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'name' => 'dev@dev.dev',
             'email' => 'dev@dev.dev',
             'email_verified_at' => Carbon::now(),
-            'password' => Hash::make('ddev@dev.dev'),
+            'password' => Hash::make('dev@dev.dev'),
         ]);
         $u->assignRole(Role::MODERATOR_TYPE);
 

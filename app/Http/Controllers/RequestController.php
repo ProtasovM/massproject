@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\IndexRequestRequest;
 use App\Http\Requests\StoreRequestRequest;
 use App\Http\Resources\RequestCollection;
-use App\Http\Resources\RequestResource;
+use App\Http\Resources\Request as RequestResource;
 use App\Models\Role;
 use Illuminate\Http\JsonResponse;
 use App\Models\Request;

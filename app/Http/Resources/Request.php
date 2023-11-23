@@ -5,13 +5,13 @@ namespace App\Http\Resources;
 use App\Services\RequestService;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\App;
 
-class RequestResource extends JsonResource
+class Request extends JsonResource
 {
-    public function __construct(
-        $resource,
-        public RequestService $requestService,
-    ) {
+    public static $wrap = null;
+
+    public function __construct($resource) {
         parent::__construct($resource);
     }
 
@@ -27,7 +27,7 @@ class RequestResource extends JsonResource
             'name' => $this->resource->author->name,
             'email' => $this->resource->author->email,
             'message' => $this->massage,
-            'status' => $this->requestService
+            'status' => App::make(RequestService::class)
                 ->getHumanIntelligibleStatus($this->resource),
             'answer' => $this->answer,
             'answer_at' => $this->answer_at,
