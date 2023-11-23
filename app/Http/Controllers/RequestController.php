@@ -26,8 +26,17 @@ class RequestController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @OA\Get(
+     *     path="/api/requiests/",
+     *     description="Paginatable list of requests",
+     *     @OA\Response(response="200", description="Display a listing of the requests"),
+     *     @OA\Response(response="204", description="No content"),
+     *     @OA\Response(response="401", description="Not authorized."),
+     *     @OA\Response(response="422", description="Validation error."),
+     *  )
      */
-    public function index(IndexRequestRequest $request): Response|JsonResponse
+    public function index(IndexRequestRequest $request)
     {
         $builder = Request::query();
 
@@ -45,32 +54,43 @@ class RequestController extends Controller
             return response(null, Response::HTTP_NO_CONTENT);
         }
 
-        return response()->json(
-            RequestCollection::make($paginator),
-        );
+        return RequestCollection::make($paginator);
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @OA\Post(
+     *     path="/api/requiests/{id}",
+     *     description="Store a newly created requiest in storage.",
+     *     @OA\Response(response="201", description="New request was created."),
+     *     @OA\Response(response="401", description="Not authorized."),
+     *     @OA\Response(response="403", description="Forbidden."),
+     *     @OA\Response(response="422", description="Validation error."),
+     * )
      */
-    public function store(StoreRequestRequest $request): JsonResponse
+    public function store(StoreRequestRequest $request)
     {
-        return \response()->json(
-            RequestResource::make(
-                Auth::user()->requests()
-                    ->create($request->validated())
-            ),
-            Response::HTTP_CREATED,
-        );
+        return RequestResource::make(
+            Auth::user()->requests()
+                ->create($request->validated())
+        )->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
+     *
+     * @OA\Get(
+     *     path="/api/requiests/{id}",
+     *     description="Display the specified requies.",
+     *     @OA\Response(response="200", description="Display the specified request."),
+     *     @OA\Response(response="401", description="Not authorized."),
+     *     @OA\Response(response="403", description="Forbidden."),
+     *     @OA\Response(response="404", description="Not found."),
+     *  )
      */
-    public function show(Request $request): JsonResponse
+    public function show(Request $request)
     {
-        return \response()->json(
-            RequestResource::make($request),
-        );
+        return RequestResource::make($request);
     }
 }

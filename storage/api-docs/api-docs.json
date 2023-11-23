@@ -1,0 +1,88 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Massproject",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "summary": "Store a newly created resource in storage.",
+                "description": "Store a newly access token in storage.",
+                "operationId": "de45964bd236f87e5860ad7e58ec540f",
+                "responses": {
+                    "201": {
+                        "description": "New token was created."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    },
+                    "503": {
+                        "description": "Login invalid."
+                    }
+                }
+            }
+        },
+        "/api/requiests/": {
+            "get": {
+                "summary": "Display a listing of the resource.",
+                "description": "Paginatable list of requests",
+                "operationId": "035a46e7aaae67438091fb01fa728b73",
+                "responses": {
+                    "200": {
+                        "description": "Display a listing of the requests"
+                    },
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Not authorized."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                }
+            }
+        },
+        "/api/requiests/{id}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "description": "Display the specified requies.",
+                "operationId": "2d06e515e9e9623ba732685740b13f15",
+                "responses": {
+                    "200": {
+                        "description": "Display the specified request."
+                    },
+                    "401": {
+                        "description": "Not authorized."
+                    },
+                    "403": {
+                        "description": "Forbidden."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store a newly created resource in storage.",
+                "description": "Store a newly created requiest in storage.",
+                "operationId": "48aab6e92812cd33565db2f118bd4e6d",
+                "responses": {
+                    "201": {
+                        "description": "New request was created."
+                    },
+                    "401": {
+                        "description": "Not authorized."
+                    },
+                    "403": {
+                        "description": "Forbidden."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                }
+            }
+        }
+    }
+}
